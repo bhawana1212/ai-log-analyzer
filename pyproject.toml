@@ -1,0 +1,24 @@
+[project]
+name = "ai-log-analyzer"
+version = "0.1.0"
+description = "Local-first CI log triage with bounded, opt-in AI explanations."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115,<1",
+    "uvicorn>=0.34,<1",
+    "httpx>=0.28,<1",
+]
+
+[project.scripts]
+ai-log-analyzer = "analyzer.cli:main"
+
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["analyzer"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["analyzer"]

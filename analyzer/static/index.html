@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Log Analyzer | Build investigation</title>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+  <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script defer src="/static/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/"><span class="brand-icon"><i data-lucide="scan-line"></i></span>AI Log Analyzer<span class="version">/ 01</span></a>
+    <span class="mode"><span class="status-dot"></span>Local analysis</span>
+  </header>
+  <main>
+    <div class="page-heading"><div><p class="eyebrow">CI / DIAGNOSTICS</p><h1>Build investigation</h1></div><span class="session-label">WORKSPACE <span>01</span></span></div>
+    <div class="workspace">
+      <section class="input-panel" aria-labelledby="input-title">
+        <div class="section-heading"><h2 id="input-title"><span class="step">01</span>Source log</h2><button id="clear" class="icon-button" title="Clear log" aria-label="Clear log"><i data-lucide="trash-2"></i></button></div>
+        <div id="drop-zone" class="drop-zone">
+          <i data-lucide="file-up"></i><label for="file">Choose a log file</label><span>.log / .txt &middot; UTF-8 &middot; up to 5 MiB</span>
+          <input id="file" type="file" accept=".log,.txt,text/plain" aria-label="Upload log file">
+        </div>
+        <div class="sample-row"><label for="sample">Sample</label><select id="sample"><option value="linker">Linker failure</option><option value="test">Test regression</option><option value="dependency">Missing dependency</option></select></div>
+        <div class="editor-heading"><label for="log" id="filename">jenkins_console.log</label><span id="line-count">0 lines</span></div>
+        <textarea id="log" spellcheck="false" aria-labelledby="filename" placeholder="Paste build output..."></textarea>
+        <button id="analyze" class="primary"><i data-lucide="scan-text"></i><span>Analyze log</span><i data-lucide="arrow-right"></i></button>
+        <p id="status" class="status-message" role="status" aria-live="polite"></p>
+      </section>
+      <section class="results-panel" aria-labelledby="result-title">
+        <div class="section-heading"><h2 id="result-title"><span class="step">02</span>Investigation</h2><button id="download" class="icon-button" title="Download JSON report" aria-label="Download JSON report" disabled><i data-lucide="download"></i></button></div>
+        <div id="empty" class="empty"><i data-lucide="terminal"></i><h3>No analysis yet</h3></div>
+        <div id="results" hidden>
+          <div class="verdict"><span id="confidence" class="badge"></span><h3 id="failure-type"></h3><span class="location" id="failure-line"></span></div>
+          <div class="metrics"><div><span>Log lines</span><strong id="metric-lines"></strong></div><div><span>Errors</span><strong id="metric-errors" class="error-number"></strong></div><div><span>Warnings</span><strong id="metric-warnings"></strong></div><div><span>Context reduced</span><strong id="metric-reduction"></strong></div></div>
+          <div class="diagnosis-grid"><div><h4>Relevant error</h4><pre id="relevant-error" class="error-excerpt"></pre></div><div><h4>Likely component</h4><p id="component" class="component"></p><span class="muted small">Inferred from log evidence</span></div></div>
+          <div class="investigation"><h4><i data-lucide="git-pull-request-arrow"></i>Suggested investigation</h4><p id="investigation"></p></div>
+          <div class="evidence-heading"><h4>Extracted evidence</h4><span class="muted small" id="evidence-count"></span></div>
+          <div class="table-wrap"><table><thead><tr><th>Line</th><th>Level</th><th>Diagnostic</th></tr></thead><tbody id="evidence"></tbody></table></div>
+          <details class="context-panel" open><summary>AI context <span id="context-size"></span></summary><pre id="context"></pre></details>
+          <div class="ai-section"><div class="ai-heading"><h4><i data-lucide="sparkles"></i>AI explanation</h4><span class="badge neutral" id="ai-state">Checking availability</span></div><p class="privacy">Only the context above is sent to OpenAI. Redaction is best-effort; review it for sensitive data before sending.</p><button id="explain" class="secondary" disabled><i data-lucide="sparkles"></i><span>Generate explanation</span></button><p id="ai-message" role="status" aria-live="polite"></p><div id="explanation" hidden></div></div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <footer><span><span class="status-dot"></span>No server-side log storage</span><span>LOCAL SIGNALS <span class="footer-arrow">&rarr;</span> FOCUSED CONTEXT <span class="footer-arrow">&rarr;</span> AI INSIGHT</span><a href="/docs">API reference <i data-lucide="arrow-up-right"></i></a></footer>
+</body>
+</html>

@@ -1,0 +1,17 @@
+Started by upstream project driver-ci
+[Pipeline] Start of Pipeline
+[Pipeline] stage (Checkout)
+Checking out revision 3a7b12f
+[Pipeline] stage (Build)
++ cmake --build build --parallel 4
+[ 25%] Building C object src/driver.c.o
+[ 50%] Building C object src/main.c.o
+src/driver.c:42: warning: unused variable 'status'
+[ 75%] Linking C executable driver_test
+/usr/bin/ld: main.c:(.text+0x24): undefined reference to `init_driver'
+collect2: error: ld returned 1 exit status
+make[2]: *** [driver_test] Error 1
+make[1]: *** [all] Error 2
+[Pipeline] End of Pipeline
+ERROR: script returned exit code 2
+Finished: FAILURE
